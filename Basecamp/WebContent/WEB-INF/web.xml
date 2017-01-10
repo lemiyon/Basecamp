@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>Basecamp</display-name>
+  
+  
+  <!-- 컨텍스트 초기화 변수 -->
+	<!-- 모든 서블릿이 공유한다.  -->
+<!-- 	<context-param>
+		<param-name>driver</param-name>
+		<param-value>com.mysql.jdbc.Driver</param-value>
+	</context-param>
+	<context-param>
+		<param-name>url</param-name>
+		<param-value>jdbc:mysql://localhost/basecamp</param-value>
+	</context-param>
+		<context-param>
+		<param-name>username</param-name>
+		<param-value>lemiyon</param-value>
+	</context-param>
+		<context-param>
+		<param-name>password</param-name>
+		<param-value>test</param-value>
+	</context-param> -->
+	
+	  
+  <servlet>
+    <servlet-name>Hello</servlet-name>
+    <servlet-class>servlets.Hello</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Hello</servlet-name>
+    <url-pattern>/Hello</url-pattern>
+  </servlet-mapping>
+  
+  <!-- GuestBookUpdateServlet 등록 -->
+  <!-- 물론, 어노테이션으로도 가능하지만 책을 따랐다. 참고로, 어노테이션, 서블릿 둘 중 하나만 따라야 한다. -->
+  <servlet> 
+  	<servlet-name>GuestBookUpdateServlet</servlet-name>
+  	<servlet-class>servlets.guestbook.GuestBookUpdateServlet</servlet-class>
+  	
+  	<!-- 서블릿의 초기화 매개변수를 정의한다. 이렇게 정의한 초기화 매개변수는 해당 서블릿에서만 사용할 수 있다. -->
+  	<init-param> 
+  		<param-name>driver</param-name>
+  		<param-value>com.mysql.jdbc.Driver</param-value>
+  	</init-param>
+  	<init-param> 
+  		<param-name>url</param-name>
+  		<param-value>jdbc:mysql://localhost/basecamp</param-value>
+  	</init-param>
+  	<init-param> 
+  		<param-name>username</param-name>
+  		<param-value>lemiyon</param-value>
+  	</init-param>
+  	<init-param> 
+  		<param-name>password</param-name>
+  		<param-value>test</param-value>
+  	</init-param>
+  </servlet>
+  
+  <!-- 서블릿을 url과 매핑한다.  -->
+  <servlet-mapping>
+  	<servlet-name>GuestBookUpdateServlet</servlet-name>
+  	<url-pattern>/guestbook/update</url-pattern>
+  </servlet-mapping>
+  
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
