@@ -30,35 +30,33 @@ import javax.servlet.http.HttpServletResponse;
 //		@WebInitParam(name="password", value="test")
 //		}
 )
-public class GuestBookDeleteServlet extends HttpServlet {
+public class GuestBookDeleteServlet extends HttpServlet 
+{
 	
 	GuestBookBusienessLogic bl;
 	
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		bl = new GuestBookBusienessLogic();
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		//드라이버를 로딩 
-		try {
-
-			
+		try 
+		{
+			bl = new GuestBookBusienessLogic();
 			bl.doDelete(request, response);
 			response.sendRedirect("list");
-			
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			// TODO Auto-generated catch block
 			//문제가 생기면 리퀘스트에 에러 내용을 넘겨 포워딩(다신 돌아오지 않음) 한다.
 			request.setAttribute("error", e);
 			RequestDispatcher rd = request.getRequestDispatcher("guestBookError.jsp");
 			rd.forward(request, response);
-			}
-		
-		finally {
-			try { stmt.close(); } catch(Exception e) { }
-			try { conn.close(); } catch(Exception e) { }
+		}
+		finally
+		{
 			
 		}
+
 	}
 }

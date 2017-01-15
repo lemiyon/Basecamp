@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,38 +48,24 @@ public class GuestBookUpdateServlet extends HttpServlet {
 	
 	
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-		
-		PreparedStatement stmt = null;
-		Connection conn = null;
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			
+			GuestBookBusienessLogic gblogic = new GuestBookBusienessLogic();
 			request.setCharacterEncoding("UTF-8");
-			Class.forName(this.getInitParameter("driver"));
-			conn = DriverManager.getConnection(this.getInitParameter("url") + "?useUnicode=true&characterEncoding=utf8",
-					this.getInitParameter("username"),
-					this.getInitParameter("password"));
-			
-			stmt = conn.prepareStatement("UPDATE GUESTBOOK SET GCONTENTS=?, MOD_DATE=now()"
-					+ " WHERE GID=?");
-			stmt.setString(1, request.getParameter("contents"));
-			stmt.setInt(2, Integer.parseInt(request.getParameter("id")));
-			
-			//executeUpdate는 주로 Update
-			stmt.executeUpdate();
-			
-			//다시 리스트로 리다이렉트한다.
+			gblogic.doUpdate(request, response);
+			response.setContentType("text/html; charset=UTF-8"); 
+		
 			response.sendRedirect("list");
 			
-			
-		} catch (Exception e) {
+		} catch (IOException | SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println(e);
-		}
-		finally {
-			try{ if(stmt != null) {stmt.close();} } catch(Exception e) {}
-			try{ if(conn != null) {conn.close();} } catch(Exception e) {}
+			//리퀘스트를 해당 jsp에게 넘겨준다.
+			request.setAttribute("error", e);
 			
+			RequestDispatcher rd = request.getRequestDispatcher("/guestbook/guestBookError.jsp");
+			rd.forward(request, response);
 		}
+
 	}
 }

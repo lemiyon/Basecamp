@@ -44,7 +44,6 @@ public class GuestBookListServlet extends HttpServlet {
 		//한글을 출력할 수 있도록 한다.
 		response.setContentType("text/html;charset=UTF-8");
 		//방명록 게시글 리스트를 불러온다. 
-
 		try{
 	
 			  //DB에서 가져온 방명록 게시글의 리스트
@@ -65,6 +64,8 @@ public class GuestBookListServlet extends HttpServlet {
 			//문제가 생기면 리퀘스트에 에러 내용을 넘겨 포워딩(다신 돌아오지 않음) 한다.
 			request.setAttribute("error", e);
 			RequestDispatcher rd = request.getRequestDispatcher("guestBookError.jsp");
+			
+			e.printStackTrace();
 			rd.forward(request, response);
 			
 		}

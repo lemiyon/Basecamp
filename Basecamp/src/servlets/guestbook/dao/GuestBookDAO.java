@@ -15,13 +15,17 @@ import servlets.guestbook.model.GuestBook;
 //由ы꽩 媛믪쑝濡� sql�쓽 �떎�뻾 寃곌낵 
 public class GuestBookDAO {
 
+	Connection conn;
+	//DAO가 생성될 때, DB 커넥션을 받아오도록 바꾼다.
+	public GuestBookDAO(Connection conn) {
+		this.conn = conn;
+	}
+	
+	
 //	C,U,D �뒗 蹂댄넻 諛섑솚 媛믪쑝濡� �젙�닔媛� 諛섑솚�맂�떎(�꽦怨�, �떎�뙣)
 	public ArrayList<GuestBook> selectGuestBook(HashMap<String, Object> value) throws SQLException {
 		
 		ArrayList<GuestBook> guestBooks = new ArrayList<GuestBook>();	
-		
-
-		Connection conn = (Connection) value.get("conn");
 		Statement stmt =  null;
 		ResultSet rs = null;
 		
@@ -64,8 +68,6 @@ public class GuestBookDAO {
 
 
 	public int insertGuestBook(HashMap<String, Object> value) {
-
-		Connection conn = (Connection) value.get("conn");
 		PreparedStatement stmt =  null;
 
 
@@ -95,9 +97,6 @@ public class GuestBookDAO {
 
 	///�긽�꽭蹂닿린 �솕硫� get /update �뿉�꽌 �긽�꽭 蹂닿린瑜� �쐞�븳 �젙蹂대�� 媛��졇�삩�떎. 
 	public GuestBook getAGuestBook(HashMap<String, Object> value) {
-
-
-		Connection conn = (Connection) value.get("conn");
 		Statement stmt =  null;
 		ResultSet rs = null;
 		GuestBook g = null;
@@ -134,8 +133,19 @@ public class GuestBookDAO {
 	
 	
 	//�긽�꽭 蹂닿린 �솕硫댁뿉�꽌 post /update濡� �뾽�뜲�씠�듃 �븯�뒗�뜲 �벐�씤�떎.
-	public int updateGuestBook(HashMap<String, Object> value) {
+	public int updateGuestBook(HashMap<String, Object> value) throws SQLException {
 
+		PreparedStatement stmt =  null;
+		
+		stmt = conn.prepareStatement(
+				"UPDATE GUESTBOOK "
+				+ "SET GCONTENTS=?"
+				+ " WHERE GID=?"
+				);
+		
+		stmt.setString(1, (String)value.get("contents"));
+		stmt.setString(2, (String)value.get("id"));
+		stmt.executeUpdate();
 
 
 		return 0;
@@ -144,8 +154,6 @@ public class GuestBookDAO {
 	
 
 	public int deleteGuestBook(HashMap<String, Object> value) throws SQLException {
-
-		Connection conn = (Connection) value.get("conn");
 		PreparedStatement stmt =  null;
 		
 		stmt = conn.prepareStatement(

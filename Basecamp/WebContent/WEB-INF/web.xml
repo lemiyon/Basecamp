@@ -39,7 +39,7 @@
   	<servlet-class>servlets.guestbook.GuestBookUpdateServlet</servlet-class>
   	
   	<!-- 서블릿의 초기화 매개변수를 정의한다. 이렇게 정의한 초기화 매개변수는 해당 서블릿에서만 사용할 수 있다. -->
-  	<init-param> 
+  <!-- 	<init-param> 
   		<param-name>driver</param-name>
   		<param-value>com.mysql.jdbc.Driver</param-value>
   	</init-param>
@@ -54,7 +54,7 @@
   	<init-param> 
   		<param-name>password</param-name>
   		<param-value>test</param-value>
-  	</init-param>
+  	</init-param> -->
   </servlet>
   
   <!-- 서블릿을 url과 매핑한다.  -->
